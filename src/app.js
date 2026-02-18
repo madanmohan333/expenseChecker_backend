@@ -1,11 +1,16 @@
 require("dotenv").config();
-const express=require("express");
-const app=express();
-const port=process.env.PORT || 5000;
-const connectDB=require("./config/database");
-const expenseRouter=require("./routes/expenseRoutes");
-const cors=require("cors");
 
+const express = require("express");
+const cors = require("cors");
+const connectDB = require("./config/database");
+const expenseRouter = require("./routes/expenseRoutes");
+
+const app = express();
+
+// Connect to MongoDB
+connectDB();
+
+// ✅ CORS Configuration (IMPORTANT)
 app.use(
   cors({
     origin: [
@@ -16,13 +21,19 @@ app.use(
     credentials: true
   })
 );
+
 app.use(express.json());
-app.use("/expenses",expenseRouter);
-connectDB().then(()=>{
-   console.log("database connected");
-   app.listen(port,()=>{
-    console.log("server started successfully");
-   })
-}).catch(()=>{
-   console.log("database cannot be connected");
-})
+
+// Routes
+app.use("/expenses", expenseRouter);
+
+// Health check route (optional but useful)
+app.get("/", (req, res) => {
+  res.send("Backend is running 🚀");
+});
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
