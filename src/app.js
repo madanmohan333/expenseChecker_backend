@@ -3,7 +3,7 @@ const app=express();
 const port=process.env.PORT || 5000;
 const connectDB=require("./config/database");
 const expenseRouter=require("./routes/expenseRoutes");
-
+require("dotenv").config();
 
 app.use("/expense",expenseRouter);
 
