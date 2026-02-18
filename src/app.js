@@ -1,10 +1,11 @@
 const express=require("express");
 const app=express();
-const port=5000;
+const port=process.env.PORT || 5000;
 const connectDB=require("./config/database");
+const expenseRouter=require("./routes/expenseRoutes");
 
 
-
+app.use("/expense",expenseRouter);
 
 
 connectDB().then(()=>{
