@@ -3,9 +3,11 @@ const app=express();
 const port=process.env.PORT || 5000;
 const connectDB=require("./config/database");
 const expenseRouter=require("./routes/expenseRoutes");
+const cors=require("cors");
 require("dotenv").config();
+app.use(express.json());
 
-app.use("/expense",expenseRouter);
+app.use("/expenses",expenseRouter);
 
 
 connectDB().then(()=>{
