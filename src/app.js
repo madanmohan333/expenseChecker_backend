@@ -9,6 +9,16 @@ app.use(express.json());
 
 app.use("/expenses",expenseRouter);
 
+app.use(
+  cors({
+    origin: [
+                    // local frontend
+      "https://expensecheckerfrontend.vercel.app/"      // deployed frontend
+    ],
+    methods: ["GET", "POST", "DELETE", "PUT"],
+    credentials: true
+  })
+);
 
 connectDB().then(()=>{
    console.log("database connected");
